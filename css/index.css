@@ -5,3 +5,11 @@ nav{
 div{
     padding: 5px;
 }
+
+.thread-data, .thread-image{
+    display: inline-block;
+}
+
+img {
+    text-align: center
+}
