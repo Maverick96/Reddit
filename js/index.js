@@ -1,13 +1,20 @@
+var page = { previousThread : {}, nextThread : {}}
 $(document).ready( () => {
+   
     $.ajax( {url : "https://www.reddit.com/.json", success : onLoad})
 })
 
-var onLoad = (result) => {
+const onLoad = (result) => {
     //Iterate through the result of the ajax call
+    $("#content").html('')
     $.each(result.data.children, function(index,value){
         createThread(value.data)
+        console.log("In each")
     })
-    
+    page.nextThread.kind = result.data.children[24].kind;
+    page.nextThread.id = result.data.children[24].data.id;
+    console.log(page.nextThread)
+    $('html, body').animate({ scrollTop: 0 }, 'fast')
 }
 
 let createThread = function(threadData){
@@ -19,6 +26,8 @@ let createThread = function(threadData){
         let $threadData = $('<div/>', {'class'  : 'thread-data'})
         let $subredditName = $('<div/>', {'text' : "Subreddit : " + threadData.subreddit_name_prefixed})
         $threadData.append($subredditName)
+        let $title = $('<div/>', { 'text' : 'Title : ' + threadData.title})
+        $threadData.append($title)
         let $upVote = $('<div/>',{'text' : "Up Votes : " + threadData.ups})
         $threadData.append($upVote)
         let $link = $("<div/>",{'text' : "Source : " });
@@ -35,3 +44,19 @@ let createThread = function(threadData){
         console.log(e.message)
     }
 }
+
+const nextPage = () => {
+    if(Object.keys(page.nextThread).length === 0 && page.nextThread.constructor === Object){
+        alert("No previous page present");
+    }
+    else {
+         page.previousThread = page.nextThread
+        let urlParameter = page.nextThread.kind + "_" + page.nextThread.id
+        let url = "https://www.reddit.com/.json?" + "after=" + urlParameter
+        $.ajax({url : url, success : onLoad})
+    }
+}
+
+// const pageLoad = (result) => {
+
+// }
