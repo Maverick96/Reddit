@@ -1,23 +1,34 @@
-var page = { previousThread : {}, nextThread : {}}
+const applicationObject = {
+                           nextThread : "",
+                           previousResults : [],
+                           currentResult : [],
+                           url : "https://www.reddit.com/.json?"
+                        }
+//on page load
 $(document).ready( () => {
    
-    $.ajax( {url : "https://www.reddit.com/.json", success : onLoad})
+    $.ajax( {url : applicationObject.url, success : onLoad})
 })
 
 const onLoad = (result) => {
-    //Iterate through the result of the ajax call
+    //clear the content div to add the new threads
     $("#content").html('')
+    //Iterate through the result of the ajax call
     $.each(result.data.children, function(index,value){
         createThread(value.data)
-        console.log("In each")
     })
-    page.nextThread.kind = result.data.children[24].kind;
-    page.nextThread.id = result.data.children[24].data.id;
-    console.log(page.nextThread)
+    applicationObject.currentResult = result
+    // updatePagination()
+    //Scroll back to top of page
     $('html, body').animate({ scrollTop: 0 }, 'fast')
 }
 
-let createThread = function(threadData){
+// const updatePagination = () => {
+//         applicationObject.nextThread = applicationObject.currentResult.data.after
+//         console.log(applicationObject.pagination)
+// }
+
+const createThread = function(threadData){
     //creating element for thread
     try {
         let $thread = $('<div/>',{'class' : 'thread'});
@@ -45,18 +56,23 @@ let createThread = function(threadData){
     }
 }
 
+//
 const nextPage = () => {
-    if(Object.keys(page.nextThread).length === 0 && page.nextThread.constructor === Object){
-        alert("No previous page present");
-    }
-    else {
-         page.previousThread = page.nextThread
-        let urlParameter = page.nextThread.kind + "_" + page.nextThread.id
-        let url = "https://www.reddit.com/.json?" + "after=" + urlParameter
+        
+        //updating previous here and next in onLoad
+        let url = applicationObject.url + "after=" + applicationObject.currentResult.data.after
+        //storing current result so it can be used 
+        applicationObject.previousResults.push(applicationObject.currentResult)
         $.ajax({url : url, success : onLoad})
-    }
+   
 }
 
-// const pageLoad = (result) => {
-
-// }
+const previousPage = () => {
+    if(applicationObject.previousResults.length === 0){
+        alert("No previous Page Present")
+    }
+    else {
+        let previousResult = applicationObject.previousResults.pop()
+        onLoad(previousResult)
+    }
+}
