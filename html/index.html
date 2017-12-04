@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <script type="text/javascript" src="../node_modules/jquery/dist/jquery.js"></script>
+    <script type = "text/javascript" src = "../js/index.js"></script> 
+</head>
+<body>
+    <!-- Header Top-->
+    <div id = "header-top">
+        <select id="mySubreddits"> 
+            <option selected hidden>My Subreddits</option>
+            <option value = "soccer">r/soccer</option>
+            <option value = "eli5">r/eli</option>
+        </select>
+
+        <!-- Navigate through the subreddits -->
+        <nav>
+            <a href  = "#">Home</a>
+            <a href  = "#">Popular</a>
+            <a href  = "#">All</a>
+            <a href  = "#">Random</a>
+            <a href  = "#">Soccer</a>
+            <a href  = "#">ELI5</a>
+            <a href  = "#">Edit</a>
+        </nav>
+    </div>
+
+    <!-- Header Bottom -->
+    <div id ="header-bottom">
+        <img src="./images/header-logo.png" alt="Reddit Logo" height="50px" width="100px">
+    </div>
+    <br>
+    <div id = "content">
+    </div>
+
+    <div class = "pagination">
+        <button type="button" onclick="previousPage()">Previous</button>
+        &emsp;
+        <button type="button" onclick="nextPage()">Next</button>
+    </div>
+</body>
+</html>

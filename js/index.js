@@ -15,7 +15,7 @@ const onLoad = (result) => {
     $("#content").html('')
     //Iterate through the result of the ajax call
     $.each(result.data.children, function(index,value){
-        createThread(value.data)
+        createThread(value.data,index)
     })
     applicationObject.currentResult = result
     // updatePagination()
@@ -23,15 +23,10 @@ const onLoad = (result) => {
     $('html, body').animate({ scrollTop: 0 }, 'fast')
 }
 
-// const updatePagination = () => {
-//         applicationObject.nextThread = applicationObject.currentResult.data.after
-//         console.log(applicationObject.pagination)
-// }
-
-const createThread = function(threadData){
+const createThread = function(threadData,index){
     //creating element for thread
     try {
-        let $thread = $('<div/>',{'class' : 'thread'});
+        let $thread = $('<div/>',{'class' : 'thread', 'data-index' : index});
         let $threadImage = $('<div/>', {'class' : 'thread-image'}).append($('<img/>',{'src' : threadData.preview.images[0].source.url, 'alt' : 'Thread Image', 'height' : '100','widht' : '100'}))
         $thread.append($threadImage)
         let $threadData = $('<div/>', {'class'  : 'thread-data'})
