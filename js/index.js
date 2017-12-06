@@ -18,7 +18,6 @@ const onLoad = (result) => {
         createThread(value.data,index)
     })
     applicationObject.currentResult = result
-    // updatePagination()
     //Scroll back to top of page
     $('html, body').animate({ scrollTop: 0 }, 'fast')
 }
