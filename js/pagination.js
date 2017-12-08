@@ -19,4 +19,7 @@ const previousPage = (applicationObject,onLoad) => {
     }
 }
 
-export {nextPage, previousPage}
+// module.exports =  {nextPage : nextPage, previousPage : previousPage}
+
+module.exports.nextPage = nextPage
+module.exports.previousPage = previousPage

@@ -7,8 +7,11 @@
     <title>Home Page</title>
     <link rel="stylesheet" href="../css/index.css">
     <script type="text/javascript" src="../node_modules/jquery/dist/jquery.js"></script>
-    <script type = "text/javascript" src = "../js/index.js"></script> 
-    <script type = "text/javascript" src = "../js/fetchComments.js"></script> 
+    <script type="text/javascript" src="../bundle.js"></script>
+    <!-- <script type = "text/javascript" src = "../js/index.js"></script> 
+    <script type = "text/javascript" src = "../js/fetchComments.js"></script>  -->
+
+    
 </head>
 <body>
     <!-- Header Top-->
@@ -40,9 +43,9 @@
     </div>
 
     <div class = "pagination">
-        <button type="button" onclick="previousPage(applicationObject, onLoad)">Previous</button>
+        <button type="button" onclick="pagination.previousPage(applicationObject, onLoad)">Previous</button>
         &emsp;
-        <button type="button" onclick="nextPage(applicationObject, onLoad)">Next</button>
+        <button type="button" onclick="pagination.nextPage(applicationObject, onLoad)">Next</button>
     </div>
 </body>
 </html>

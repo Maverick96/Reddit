@@ -5,7 +5,10 @@ const applicationObject = {
                            url : "https://www.reddit.com/.json?"
                         }
 //on page load
-$(document).ready( () => {
+
+const pagination = require('./pagination.js')
+console.log(JSON.stringify(pagination))
+$(document).ready( function() {
    
     $.ajax( {url : applicationObject.url, success : onLoad})
 })
@@ -51,22 +54,22 @@ const createThread = function(threadData,index){
 }
 
 //
-const nextPage = () => {
+// const nextPage = () => {
         
-        //updating previous here and next in onLoad
-        let url = applicationObject.url + "after=" + applicationObject.currentResult.data.after
-        //storing current result so it can be used 
-        applicationObject.previousResults.push(applicationObject.currentResult)
-        $.ajax({url : url, success : onLoad})
+//         //updating previous here and next in onLoad
+//         let url = applicationObject.url + "after=" + applicationObject.currentResult.data.after
+//         //storing current result so it can be used 
+//         applicationObject.previousResults.push(applicationObject.currentResult)
+//         $.ajax({url : url, success : onLoad})
    
-}
+// }
 
-const previousPage = () => {
-    if(applicationObject.previousResults.length === 0){
-        alert("No previous Page Present")
-    }
-    else {
-        let previousResult = applicationObject.previousResults.pop()
-        onLoad(previousResult)
-    }
-}
+// const previousPage = () => {
+//     if(applicationObject.previousResults.length === 0){
+//         alert("No previous Page Present")
+//     }
+//     else {
+//         let previousResult = applicationObject.previousResults.pop()
+//         onLoad(previousResult)
+//     }
+// }
