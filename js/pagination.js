@@ -18,5 +18,3 @@ export const previousPage = (applicationObject,onLoad) => {
         onLoad(previousResult)
     }
 }
-
-// module.exports =  {nextPage : nextPage, previousPage : previousPage}

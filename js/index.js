@@ -6,7 +6,9 @@ const applicationObject = {
                         }
 //on page load
 
+import '../css/index.css'
 import {previousPage,nextPage} from './pagination.js'
+
 console.log("prev" + previousPage + "next " + nextPage)
 $(document).ready( function() {
    
