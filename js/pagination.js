@@ -1,4 +1,4 @@
-const nextPage = (applicationObject,onLoad) => {
+export const nextPage = (applicationObject,onLoad) => {
     
     //updating previous here and next in onLoad
     let url = applicationObject.url + "after=" + applicationObject.currentResult.data.after
@@ -8,7 +8,7 @@ const nextPage = (applicationObject,onLoad) => {
 
 }
 
-const previousPage = (applicationObject,onLoad) => {
+export const previousPage = (applicationObject,onLoad) => {
     
     if(applicationObject.previousResults.length === 0){
         alert("No previous Page Present")
@@ -20,6 +20,3 @@ const previousPage = (applicationObject,onLoad) => {
 }
 
 // module.exports =  {nextPage : nextPage, previousPage : previousPage}
-
-module.exports.nextPage = nextPage
-module.exports.previousPage = previousPage

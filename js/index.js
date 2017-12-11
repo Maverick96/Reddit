@@ -6,11 +6,17 @@ const applicationObject = {
                         }
 //on page load
 
-const pagination = require('./pagination.js')
-console.log(JSON.stringify(pagination))
+import {previousPage,nextPage} from './pagination.js'
+console.log("prev" + previousPage + "next " + nextPage)
 $(document).ready( function() {
    
     $.ajax( {url : applicationObject.url, success : onLoad})
+    $("button").on("click", (event) =>{
+        if(event.currentTarget.textContent === 'Previous')
+            previousPage(applicationObject, onLoad)      
+        else if(event.currentTarget.textContent === 'Next')
+            nextPage(applicationObject, onLoad)
+    })  
 })
 
 const onLoad = (result) => {

@@ -1,1 +1,184 @@
-!function(e){function t(n){if(r[n])return r[n].exports;var a=r[n]={i:n,l:!1,exports:{}};return e[n].call(a.exports,a,a.exports,t),a.l=!0,a.exports}var r={};t.m=e,t.c=r,t.d=function(e,r,n){t.o(e,r)||Object.defineProperty(e,r,{configurable:!1,enumerable:!0,get:n})},t.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(r,"a",r),r},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0)}([function(e,t,r){"use strict";var n={nextThread:"",previousResults:[],currentResult:[],url:"https://www.reddit.com/.json?"},a=r(1);console.log(JSON.stringify(a)),$(document).ready(function(){$.ajax({url:n.url,success:s})});var s=function(e){$("#content").html(""),$.each(e.data.children,function(e,t){u(t.data,e)}),n.currentResult=e,$("html, body").animate({scrollTop:0},"fast")},u=function(e,t){try{var r=$("<div/>",{class:"thread","data-index":t}),n=$("<div/>",{class:"thread-image"}).append($("<img/>",{src:e.preview.images[0].source.url,alt:"Thread Image",height:"100",widht:"100"}));r.append(n);var a=$("<div/>",{class:"thread-data"}),s=$("<div/>",{text:"Subreddit : "+e.subreddit_name_prefixed});a.append(s);var u=$("<div/>",{text:"Title : "+e.title});a.append(u);var o=$("<div/>",{text:"Up Votes : "+e.ups});a.append(o);var i=$("<div/>",{text:"Source : "});$("<a>",{href:e.url,text:e.url,target:"_blank"}).appendTo(i),a.append(i);var p=$("<div/>",{text:"No. of Comments : "}).append($("<a/>",{href:'javascript:showComments("'+e.permalink+'")',text:e.num_comments}));a.append(p),r.append(a),r.append("<hr/>"),$("#content").append(r)}catch(e){console.log(e.message)}}},function(e,t,r){"use strict";var n=function(e,t){var r=e.url+"after="+e.currentResult.data.after;e.previousResults.push(e.currentResult),$.ajax({url:r,success:t})},a=function(e,t){if(0===e.previousResults.length)alert("No previous Page Present");else{t(e.previousResults.pop())}};e.exports.nextPage=n,e.exports.previousPage=a}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _pagination = __webpack_require__(1);
+
+var applicationObject = {
+    nextThread: "",
+    previousResults: [],
+    currentResult: [],
+    url: "https://www.reddit.com/.json?"
+    //on page load
+
+};
+console.log("prev" + _pagination.previousPage + "next " + _pagination.nextPage);
+$(document).ready(function () {
+
+    $.ajax({ url: applicationObject.url, success: onLoad });
+    $("button").on("click", function (event) {
+        if (event.currentTarget.textContent === 'Previous') (0, _pagination.previousPage)(applicationObject, onLoad);else if (event.currentTarget.textContent === 'Next') (0, _pagination.nextPage)(applicationObject, onLoad);
+    });
+});
+
+var onLoad = function onLoad(result) {
+    //clear the content div to add the new threads
+    $("#content").html('');
+    //Iterate through the result of the ajax call
+    $.each(result.data.children, function (index, value) {
+        createThread(value.data, index);
+    });
+    applicationObject.currentResult = result;
+    //Scroll back to top of page
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+};
+
+var createThread = function createThread(threadData, index) {
+    //creating element for thread
+    try {
+        var $thread = $('<div/>', { 'class': 'thread', 'data-index': index });
+        var $threadImage = $('<div/>', { 'class': 'thread-image' }).append($('<img/>', { 'src': threadData.preview.images[0].source.url, 'alt': 'Thread Image', 'height': '100', 'widht': '100' }));
+        $thread.append($threadImage);
+        var $threadData = $('<div/>', { 'class': 'thread-data' });
+        var $subredditName = $('<div/>', { 'text': "Subreddit : " + threadData.subreddit_name_prefixed });
+        $threadData.append($subredditName);
+        var $title = $('<div/>', { 'text': 'Title : ' + threadData.title });
+        $threadData.append($title);
+        var $upVote = $('<div/>', { 'text': "Up Votes : " + threadData.ups });
+        $threadData.append($upVote);
+        var $link = $("<div/>", { 'text': "Source : " });
+        //hyperlink for the source
+        $("<a>", { 'href': threadData.url, 'text': threadData.url, 'target': '_blank' }).appendTo($link);
+        $threadData.append($link);
+        var $comments = $("<div/>", { 'text': "No. of Comments : " }).append($('<a/>', { 'href': 'javascript:showComments("' + threadData.permalink + '")', 'text': threadData.num_comments }));
+        $threadData.append($comments);
+        $thread.append($threadData);
+        $thread.append("<hr/>");
+        $("#content").append($thread);
+    } catch (e) {
+        console.log(e.message);
+    }
+};
+
+//
+// const nextPage = () => {
+
+//         //updating previous here and next in onLoad
+//         let url = applicationObject.url + "after=" + applicationObject.currentResult.data.after
+//         //storing current result so it can be used 
+//         applicationObject.previousResults.push(applicationObject.currentResult)
+//         $.ajax({url : url, success : onLoad})
+
+// }
+
+// const previousPage = () => {
+//     if(applicationObject.previousResults.length === 0){
+//         alert("No previous Page Present")
+//     }
+//     else {
+//         let previousResult = applicationObject.previousResults.pop()
+//         onLoad(previousResult)
+//     }
+// }
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var nextPage = exports.nextPage = function nextPage(applicationObject, onLoad) {
+
+    //updating previous here and next in onLoad
+    var url = applicationObject.url + "after=" + applicationObject.currentResult.data.after;
+    //storing current result so it can be used 
+    applicationObject.previousResults.push(applicationObject.currentResult);
+    $.ajax({ url: url, success: onLoad });
+};
+
+var previousPage = exports.previousPage = function previousPage(applicationObject, onLoad) {
+
+    if (applicationObject.previousResults.length === 0) {
+        alert("No previous Page Present");
+    } else {
+        var previousResult = applicationObject.previousResults.pop();
+        onLoad(previousResult);
+    }
+};
+
+// module.exports =  {nextPage : nextPage, previousPage : previousPage}
+
+/***/ })
+/******/ ]);
