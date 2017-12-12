@@ -8,8 +8,8 @@ const applicationObject = {
 
 import '../css/index.css'
 import {previousPage,nextPage} from './pagination.js'
+import * as comments from './fetchComments'
 
-console.log("prev" + previousPage + "next " + nextPage)
 $(document).ready( function() {
    
     $.ajax( {url : applicationObject.url, success : onLoad})
@@ -50,7 +50,7 @@ const createThread = function(threadData,index){
         //hyperlink for the source
         $("<a>",{'href' : threadData.url, 'text' : threadData.url, 'target' : '_blank'}).appendTo($link)
         $threadData.append($link)
-        let $comments = $("<div/>", {'text' : "No. of Comments : " }).append($('<a/>',{'href' : 'javascript:showComments("'+threadData.permalink+'")', 'text' : threadData.num_comments}))
+        let $comments = $("<div/>", {'text' : "No. of Comments : " }).append($('<a/>',{'href' : 'javascript:comments.showComments("'+threadData.permalink+'")', 'text' : threadData.num_comments}))
         $threadData.append($comments)
         $thread.append($threadData)
         $thread.append("<hr/>")
@@ -60,24 +60,3 @@ const createThread = function(threadData,index){
         console.log(e.message)
     }
 }
-
-//
-// const nextPage = () => {
-        
-//         //updating previous here and next in onLoad
-//         let url = applicationObject.url + "after=" + applicationObject.currentResult.data.after
-//         //storing current result so it can be used 
-//         applicationObject.previousResults.push(applicationObject.currentResult)
-//         $.ajax({url : url, success : onLoad})
-   
-// }
-
-// const previousPage = () => {
-//     if(applicationObject.previousResults.length === 0){
-//         alert("No previous Page Present")
-//     }
-//     else {
-//         let previousResult = applicationObject.previousResults.pop()
-//         onLoad(previousResult)
-//     }
-// }
