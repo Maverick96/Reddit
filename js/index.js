@@ -8,8 +8,8 @@ const applicationObject = {
 
 import '../css/index.css'
 import {previousPage,nextPage} from './pagination.js'
-import * as comments from './fetchComments'
-
+import {comments} from './fetchComments'
+console.log((comments))
 $(document).ready( function() {
    
     $.ajax( {url : applicationObject.url, success : onLoad})
@@ -50,7 +50,7 @@ const createThread = function(threadData,index){
         //hyperlink for the source
         $("<a>",{'href' : threadData.url, 'text' : threadData.url, 'target' : '_blank'}).appendTo($link)
         $threadData.append($link)
-        let $comments = $("<div/>", {'text' : "No. of Comments : " }).append($('<a/>',{'href' : 'javascript:comments.showComments("'+threadData.permalink+'")', 'text' : threadData.num_comments}))
+        let $comments = $("<div/>", {'text' : "No. of Comments : " }).append($('<a/>',{'text' : threadData.num_comments}).click(() => comments.showComments(threadData.permalink)))  
         $threadData.append($comments)
         $thread.append($threadData)
         $thread.append("<hr/>")
