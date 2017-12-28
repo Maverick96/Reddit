@@ -50,7 +50,7 @@ const createThread = function(threadData,index){
         //hyperlink for the source
         $("<a>",{'href' : threadData.url, 'text' : threadData.url, 'target' : '_blank'}).appendTo($link)
         $threadData.append($link)
-        let $comments = $("<div/>", {'text' : "No. of Comments : " }).append($('<a/>',{'text' : threadData.num_comments}).click(() => comments.showComments(threadData.permalink)))  
+        let $comments = $("<div/>", {'text' : "No. of Comments : " }).append($('<a/>',{'href' : 'javascript:void(0)','text' : threadData.num_comments}).click(() => comments.showComments(threadData.permalink)))  
         $threadData.append($comments)
         $thread.append($threadData)
         $thread.append("<hr/>")

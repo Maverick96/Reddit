@@ -32,11 +32,15 @@ export const comments = {
             return;
         }
         
-        let newComment = $('<div/>',{class : 'parent-comment'})
+        let newComment = $('<div/>')
+        if(repliesArray.data.depth == '0')
+            newComment.addClass("parent-comment")
+        else
+            newComment.addClass("child-comment")
         let tagline = comments.createTagline(repliesArray.data.author,repliesArray.data.score,repliesArray.data.score_hidden)
         newComment.css("padding", "0px 0px 5px " + padding + "px")
         tagline.appendTo(newComment)
-        let child = $('<div/>', {'class' : 'child'}).html(repliesArray.data.body)
+        let child = $('<div/>',{'class' : 'post-content'}).html(repliesArray.data.body)
         child.appendTo(newComment)
 
         $(parentElement).append(newComment)
@@ -58,7 +62,7 @@ export const comments = {
         //hide score if required
         if(isScoreHidden)
             score = 'score hidden'
-        $('<a/>',{'href' : 'javascript:void(0)', 'text' : '[-]'}).click(() => comments.toggle(this)).appendTo(tagline)
+        $('<a/>',{'href' : 'javascript:void(0)', 'text' : '[-]'}).click((event) => comments.toggle(event.target)).appendTo(tagline)
         $('<a/>',{'href' : 'https://www.reddit.com/u/' + author,  'text' : author}).appendTo(tagline)
         $('<span/>',{'class' : 'score'}).html(score).appendTo(tagline)
         return tagline

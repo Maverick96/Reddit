@@ -122,7 +122,7 @@ var createThread = function createThread(threadData, index) {
         //hyperlink for the source
         $("<a>", { 'href': threadData.url, 'text': threadData.url, 'target': '_blank' }).appendTo($link);
         $threadData.append($link);
-        var $comments = $("<div/>", { 'text': "No. of Comments : " }).append($('<a/>', { 'text': threadData.num_comments }).click(function () {
+        var $comments = $("<div/>", { 'text': "No. of Comments : " }).append($('<a/>', { 'href': 'javascript:void(0)', 'text': threadData.num_comments }).click(function () {
             return _fetchComments.comments.showComments(threadData.permalink);
         }));
         $threadData.append($comments);
@@ -174,7 +174,7 @@ exports = module.exports = __webpack_require__(3)(undefined);
 
 
 // module
-exports.push([module.i, "nav{\n    display: inline;\n}\n\ndiv{\n    padding: 5px;\n}\n\n.thread-data, .thread-image{\n    display: inline-block;\n}\n\nimg {\n    text-align: center\n}", ""]);
+exports.push([module.i, "nav{\r\n    display: inline;\r\n}\r\n\r\ndiv{\r\n    padding: 5px;\r\n}\r\n\r\n.thread-data, .thread-image{\r\n    display: inline-block;\r\n}\r\n\r\nimg {\r\n    text-align: center\r\n}\r\n\r\n.parent-comment {\r\n    position: relative;\r\n    border-radius: 15px;\r\n    margin-top: -15px;\r\n    border: solid lightblue;\r\n    background: lightblue;\r\n    margin-bottom: 20px;\r\n    /* background: lightblue; */\r\n}\r\n\r\n.child-comment {\r\n    position: relative;\r\n    border: solid lightgray;\r\n    /* background: lightgray; */\r\n    padding-top: 10px;\r\n    margin-top: 10px;\r\n    /* background: green; */\r\n}", ""]);
 
 // exports
 
@@ -331,7 +331,7 @@ module.exports = function(list, options) {
 
 	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
 	// tags it will allow on a page
-	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
+	if (!options.singleton) options.singleton = isOldIE();
 
 	// By default, add <style> tags to the <head> element
 	if (!options.insertInto) options.insertInto = "head";
@@ -801,11 +801,12 @@ var comments = exports.comments = {
                 return;
             }
 
-        var newComment = $('<div/>', { class: 'parent-comment' });
+        var newComment = $('<div/>');
+        if (repliesArray.data.depth == '0') newComment.addClass("parent-comment");else newComment.addClass("child-comment");
         var tagline = comments.createTagline(repliesArray.data.author, repliesArray.data.score, repliesArray.data.score_hidden);
         newComment.css("padding", "0px 0px 5px " + padding + "px");
         tagline.appendTo(newComment);
-        var child = $('<div/>', { 'class': 'child' }).html(repliesArray.data.body);
+        var child = $('<div/>', { 'class': 'post-content' }).html(repliesArray.data.body);
         child.appendTo(newComment);
 
         $(parentElement).append(newComment);
@@ -822,8 +823,8 @@ var comments = exports.comments = {
 
         //hide score if required
         if (isScoreHidden) score = 'score hidden';
-        $('<a/>', { 'href': 'javascript:void(0)', 'text': '[-]' }).click(function () {
-            return comments.toggle(undefined);
+        $('<a/>', { 'href': 'javascript:void(0)', 'text': '[-]' }).click(function (event) {
+            return comments.toggle(event.target);
         }).appendTo(tagline);
         $('<a/>', { 'href': 'https://www.reddit.com/u/' + author, 'text': author }).appendTo(tagline);
         $('<span/>', { 'class': 'score' }).html(score).appendTo(tagline);
